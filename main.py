@@ -1,5 +1,8 @@
 import sqlite3
+
 # main.py
+
+
 def saudacao(nome: str) -> str:
     """Retorna uma saudação segura."""
     if not isinstance(nome, str):
@@ -20,9 +23,8 @@ if __name__ == "__main__":
 
 # Adicione ao final do main.py (temporariamente)
 
-def buscar_usuario_vulneravel(user_id):
 
-    
+def buscar_usuario_vulneravel(user_id):
     conn = sqlite3.connect('banco.db')
     cursor = conn.cursor()
     # ⚠️ SQL INJECTION: nunca faça isso em produção!
