@@ -1,5 +1,6 @@
 # tests/test_main.py
 import pytest
+
 from main import saudacao, calcular_media
 
 
