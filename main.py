@@ -1,3 +1,4 @@
+import sqlite3
 # main.py
 def saudacao(nome: str) -> str:
     """Retorna uma saudação segura."""
@@ -18,9 +19,10 @@ if __name__ == "__main__":
     print(f'Média: {calcular_media([8.5, 9.0, 7.5])}')
 
 # Adicione ao final do main.py (temporariamente)
-import sqlite3
 
 def buscar_usuario_vulneravel(user_id):
+
+    
     conn = sqlite3.connect('banco.db')
     cursor = conn.cursor()
     # ⚠️ SQL INJECTION: nunca faça isso em produção!
