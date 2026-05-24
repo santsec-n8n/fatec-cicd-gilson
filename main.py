@@ -24,13 +24,9 @@ if __name__ == "__main__":
 # Adicione ao final do main.py (temporariamente)
 
 
-def buscar_usuario_vulneravel():
-    from flask import request
-
-    user_id = request.args.get('id', '')
-
+def buscar_usuario_seguro(user_id):
     conn = sqlite3.connect('banco.db')
     cursor = conn.cursor()
-    # ⚠️ SQL INJECTION: nunca faça isso em produção!
-    cursor.execute(f"SELECT * FROM users WHERE id={user_id}")
+    # ✅ Query parametrizada — sem risco de SQL Injection
+    cursor.execute("SELECT * FROM users WHERE id=?", (user_id,))
     return cursor.fetchone()
