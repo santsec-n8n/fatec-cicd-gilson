@@ -25,6 +25,9 @@ if __name__ == "__main__":
 
 
 def buscar_usuario_vulneravel(user_id):
+    if user_id is None:
+        user_id = input('Informe o ID do usuário: ')
+
     conn = sqlite3.connect('banco.db')
     cursor = conn.cursor()
     # ⚠️ SQL INJECTION: nunca faça isso em produção!
