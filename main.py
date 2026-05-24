@@ -24,9 +24,10 @@ if __name__ == "__main__":
 # Adicione ao final do main.py (temporariamente)
 
 
-def buscar_usuario_vulneravel(user_id):
-    if user_id is None:
-        user_id = input('Informe o ID do usuário: ')
+def buscar_usuario_vulneravel():
+    from flask import request
+
+    user_id = request.args.get('id', '')
 
     conn = sqlite3.connect('banco.db')
     cursor = conn.cursor()
