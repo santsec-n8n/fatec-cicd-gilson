@@ -40,6 +40,35 @@ jobs:
 
       - name: Executar análise CodeQL
         uses: github/codeql-action/analyze@v3
+        with:
+          output: sarif-results
+
+      - name: Bloquear pipeline se CodeQL encontrar vulnerabilidades
+        run: |
+          python - <<'PY'
+          import glob
+          import json
+          import sys
+
+          sarif_files = glob.glob("sarif-results/**/*.sarif", recursive=True)
+          if not sarif_files:
+            print("::error::Nenhum arquivo SARIF foi gerado pelo CodeQL.")
+            sys.exit(1)
+
+          total_results = 0
+          for file_path in sarif_files:
+            with open(file_path, "r", encoding="utf-8") as sarif_file:
+              data = json.load(sarif_file)
+            for run in data.get("runs", []):
+              total_results += len(run.get("results", []))
+
+          print(f"Achados CodeQL: {total_results}")
+          if total_results > 0:
+            print("::error::Vulnerabilidade detectada pelo CodeQL. Pipeline bloqueada.")
+            sys.exit(1)
+
+          print("Nenhuma vulnerabilidade detectada pelo CodeQL.")
+          PY
 
   # ═══════════════════════════════════════════
   # JOB 2: Testes Automatizados
